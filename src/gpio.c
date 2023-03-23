@@ -1,12 +1,15 @@
 #include "gpio.h"
 
 void initGPIO() {
-	// Initialize blink LED
-	LED_PORT_CLK_ENABLE();
-	GPIO_InitTypeDef ledStruct = {
-		.Pin = LED_PIN,
-		.Mode = GPIO_MODE_OUTPUT_PP,
-		.Pull = GPIO_PULLUP,
-		.Speed = GPIO_SPEED_HIGH};
-	HAL_GPIO_Init(LED_PORT, &ledStruct);
+	// Initialize PWM GPIO
+	PWM_GPIO_CLK_ENABLE();
+
+	GPIO_InitTypeDef pwmStruct = {
+		.Pin = PWM_GPIO_PIN,
+		.Mode = GPIO_MODE_AF_PP,	   // Alternate function since driven by PWM_TIMER
+		.Pull = GPIO_NOPULL,		   // No push-pull config
+		.Speed = GPIO_SPEED_FREQ_LOW,  // Go for slow slew rate as we won't switch this pin that fast
+		.Alternate = PWM_GPIO_AF,	   // Connect PWM_TIMER to this pin
+	};
+	HAL_GPIO_Init(PWM_GPIO_PORT, &pwmStruct);
 }
