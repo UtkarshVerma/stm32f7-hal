@@ -5,6 +5,7 @@ void initClock() {
 		// Enable the 8MHz HSE oscillator
 		.OscillatorType = RCC_OSCILLATORTYPE_HSE,
 		.HSEState = RCC_HSE_ON,
+		.HSIState = RCC_HSI_OFF,
 
 		// Configure PLL to generate a 216 MHz clock signal using the HSE oscillator
 		// PLL = (HSE / m) * n / p
@@ -17,6 +18,11 @@ void initClock() {
 		},
 	};
 	if (HAL_RCC_OscConfig(&oscStruct) != HAL_OK) {
+		errorHandler(__FILE__, __LINE__);
+	}
+
+	/* Activate the OverDrive to reach the 216 Mhz Frequency */
+	if (HAL_PWREx_EnableOverDrive() != HAL_OK) {
 		errorHandler(__FILE__, __LINE__);
 	}
 
