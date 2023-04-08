@@ -1,16 +1,34 @@
 #include "gpio.h"
 
 void initGPIO() {
-	// Initialize SPI GPIO
-	SPI_GPIO_CLK_ENABLE();
+    // Initialize UART logger GPIO
+    UARTx_TX_GPIO_CLK_ENABLE();
 
-	GPIO_InitTypeDef spiGPIO = {
-		.Pin = SPI_CS_PIN | SPI_MOSI_PIN | SPI_MISO_PIN | SPI_SCK_PIN,
-		.Mode = GPIO_MODE_AF_PP,  // Use alternate function
-		.Pull = GPIO_PULLDOWN,
-		.Speed = GPIO_SPEED_FREQ_HIGH,	// Go for high slew rate to support high baudrates
-		.Alternate = GPIO_AF5_SPI1,		// Enable SPI alternate function
-	};
+    GPIO_InitTypeDef logUARTStruct = {
+        .Pin   = UARTx_TX_PIN,
+        .Mode  = GPIO_MODE_AF_PP,  // Alternate function since driven by USART
+        .Pull  = GPIO_NOPULL,      // No push-pull config
+        .Speed = GPIO_SPEED_HIGH,  // Go for high slew rate to support higher
+                                   // baudrates
+        .Alternate = UARTx_TX_AF,  // Connect UART to this pin
+    };
+    HAL_GPIO_Init(UARTx_TX_GPIO_PORT, &logUARTStruct);
 
-	HAL_GPIO_Init(SPI_GPIO_PORT, &spiGPIO);
+    // Initialize I2C GPIO
+    I2Cx_SDA_CLK_ENABLE();
+    I2Cx_SCL_CLK_ENABLE();
+
+    GPIO_InitTypeDef i2cGPIO = {
+        .Mode  = GPIO_MODE_AF_OD,  // Use alternate function with open-drain
+        .Pull  = GPIO_NOPULL,      // Use external pullups
+        .Speed = GPIO_SPEED_HIGH,  // Go for high slew rate to support high
+                                   // speed transfers
+        .Alternate = I2Cx_SCL_SDA_AF,
+    };
+
+    i2cGPIO.Pin = I2Cx_SDA_PIN;
+    HAL_GPIO_Init(I2Cx_SDA_GPIO_PORT, &i2cGPIO);
+
+    i2cGPIO.Pin = I2Cx_SCL_PIN;
+    HAL_GPIO_Init(I2Cx_SCL_GPIO_PORT, &i2cGPIO);
 }

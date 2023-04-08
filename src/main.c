@@ -1,22 +1,30 @@
 #include "main.h"
 
+#include "clock.h"
+#include "dma.h"
+#include "gpio.h"
+#include "i2c.h"
+#include "uart.h"
+#include "util.h"
+
 void init() {
-	HAL_Init();
-	initClock();
-	initGPIO();
-	initSPI();
+    HAL_Init();
+    initClock();
+
+    initGPIO();
+    initDMA();
+    initUART();
+    i2c_init();
 }
 
 int main() {
-	init();
+    init();
 
-	uint8_t outData[] = {0xba, 0xff};
-	uint8_t inData[LEN(outData)];
+    const char buffer[] = "Hello!";
+    while (1) {
+        i2c_transmit(0x7a, (byte*)buffer, LEN(buffer));
+        HAL_Delay(1000);
+    }
 
-	while (1) {
-		HAL_SPI_Transmit(&spiHandle, outData, LEN(outData), HAL_MAX_DELAY);
-		HAL_Delay(1000);
-	}
-
-	return 0;
+    return 0;
 }
