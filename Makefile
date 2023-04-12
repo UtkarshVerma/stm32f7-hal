@@ -83,7 +83,7 @@ COMMON_FLAGS := -mthumb -mcpu=$(CPU) -mfloat-abi=hard -mfpu=fpv5-d16
 LDFILE := linker-script.ld
 
 ASFLAGS := $(COMMON_FLAGS)
-CFLAGS := $(COMMON_FLAGS) -Wall -g -Os
+CFLAGS := $(COMMON_FLAGS) -Wall -Wpedantic -Wextra -g -Os -std=c99
 CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -nostdlib $(INCS) $(DEFS)
 LDFLAGS := $(COMMON_FLAGS) -Os -L$(CMSIS_DIR)/Lib

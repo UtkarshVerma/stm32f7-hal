@@ -1,7 +1,7 @@
 #pragma once
 #include "main.h"
 
-extern UART_HandleTypeDef logUARTHandle;
+extern UART_HandleTypeDef logger_uart;
 
-void initUART();
-void logUART(char*, ...);
+void uart_init(void);
+void log_uart(char*, ...);

@@ -1,4 +1,4 @@
 #pragma once
 #include "main.h"
 
-void initClock();
+void clock_init(void);

@@ -2,8 +2,8 @@
 
 #include "uart.h"
 
-void errorHandler(char *file, unsigned int line) {
-    logUART("[ERROR]\terorr occured on line %u in file %s\r\n", line, file);
+void error_handler(char *file, unsigned int line) {
+    log_uart("[ERROR]\terorr occured on line %u in file %s\r\n", line, file);
     while (1)
         ;
 }

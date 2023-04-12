@@ -3,9 +3,9 @@
 #include "uart.h"
 #include "util.h"
 
-DMA_HandleTypeDef logUARTDMAHandle = {
+DMA_HandleTypeDef logger_dma = {
     .Instance = UARTx_TX_DMA_STREAM,
-    .Parent   = &logUARTHandle,
+    .Parent   = &logger_uart,
     .Init =
         {
             .Channel             = UARTx_TX_DMA_CHANNEL,
@@ -20,12 +20,12 @@ DMA_HandleTypeDef logUARTDMAHandle = {
         },
 };
 
-void initDMA() {
+void dma_init(void) {
     // Set up DMA for UART logger
     UARTx_DMA_CLK_ENABLE();
-    HAL_DMA_Init(&logUARTDMAHandle);
+    HAL_DMA_Init(&logger_dma);
 
-    // Enable interrupts for UART DMA
+    // Enable interrupts for UART logger
     HAL_NVIC_SetPriority(UARTx_TX_DMA_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(UARTx_TX_DMA_IRQn);
 }

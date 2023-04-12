@@ -1,6 +1,6 @@
 #pragma once
 #include "main.h"
 
-extern DMA_HandleTypeDef spiTxDMAHandle, spiRxDMAHandle, logUARTDMAHandle;
+extern DMA_HandleTypeDef logger_dma;
 
-void initDMA();
+void dma_init(void);

@@ -1,4 +1,4 @@
 #pragma once
 #include "main.h"
 
-void initGPIO();
+void gpio_init(void);

@@ -1,5 +1,6 @@
 BasedOnStyle: Google
 IndentWidth: 4
+ColumnLimit: 96
 UseTab: Never
 AlignConsecutiveMacros: Consecutive
 AlignConsecutiveAssignments: Consecutive

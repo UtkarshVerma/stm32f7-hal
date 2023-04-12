@@ -1,10 +1,10 @@
 #pragma once
 
-void _close();
-void _lseek();
-void _read();
-void _write();
-void _kill();
-void _isatty();
-void _getpid();
-void _fstat();
+void _close(void);
+void _lseek(void);
+void _read(void);
+void _write(void);
+void _kill(void);
+void _isatty(void);
+void _getpid(void);
+void _fstat(void);

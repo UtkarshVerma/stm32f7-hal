@@ -6,11 +6,11 @@
 
 #include "dma.h"
 
-static uint8_t txBuffer[1000];
+static uint8_t tx_buffer[1000];
 
-UART_HandleTypeDef logUARTHandle = {
+UART_HandleTypeDef logger_uart = {
     .Instance = UARTx,
-    .hdmatx   = &logUARTDMAHandle,
+    .hdmatx   = &logger_dma,
     .Init =
         {
             .BaudRate   = 115200,
@@ -23,20 +23,20 @@ UART_HandleTypeDef logUARTHandle = {
         },
 };
 
-void initUART() {
+void uart_init(void) {
     UARTx_CLK_ENABLE();
-    HAL_UART_Init(&logUARTHandle);
+    HAL_UART_Init(&logger_uart);
 
     // Enable interrupts
     HAL_NVIC_SetPriority(UARTx_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(UARTx_IRQn);
 }
 
-void logUART(char *fmt, ...) {
+void log_uart(char *fmt, ...) {
     va_list args;
     va_start(args, fmt);
-    vsprintf((char *)txBuffer, fmt, args);
+    vsprintf((char *)tx_buffer, fmt, args);
     va_end(args);
 
-    HAL_UART_Transmit_DMA(&logUARTHandle, txBuffer, strlen((char *)txBuffer));
+    HAL_UART_Transmit_DMA(&logger_uart, tx_buffer, strlen((char *)tx_buffer));
 }

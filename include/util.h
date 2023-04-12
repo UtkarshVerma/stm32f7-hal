@@ -8,4 +8,4 @@ typedef uint16_t word;
 typedef uint32_t dword;
 typedef uint64_t qword;
 
-void errorHandler(char *file, unsigned int line);
+void error_handler(char *file, unsigned int line);
